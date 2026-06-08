@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{baseUrl}}/email-templates"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "label": "API Test Rechnung",
+      "subject": "Ihre Rechnung {invoice_number}",
+      "body": "<p>Hallo {company_name},</p><p>anbei erhalten Sie Ihre Rechnung {invoice_number}.</p>"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{authToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      if (pm.environment.get("environment") === "allWorks") {
+          pm.test('Status is 201', function () {
+              pm.response.to.have.status(201);
+          });
+              
+          let Data =pm.response.json();
+          pm.collectionVariables.set("email", Data.data.id);
+      }
+    language: text/javascript
+order: 3000

@@ -1,0 +1,14 @@
+$kind: collection
+variables:
+  customer: ""
+  item: ""
+  email: ""
+  invoice: ""
+  draftinvoice: ""
+  success: ""
+auth:
+  - id: 32ec1f49-4cc9-4ddd-9e16-8831816d9d63
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{authToken}}"

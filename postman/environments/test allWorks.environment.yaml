@@ -1,0 +1,10 @@
+name: test allWorks
+values:
+  - key: authToken
+    value: ''
+  - key: baseUrl
+    value: ''
+  - key: speed
+    value: ''
+  - key: environment
+    value: ''

@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{baseUrl}}/invoices"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customer}}",
+      "itemIds": ["{{item}}"],
+      "draft": false,
+      "send": false
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{authToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      if (pm.environment.get("environment") === "allWorks") {
+          pm.test('Status is 201', function () {
+              pm.response.to.have.status(201);
+          });
+          
+          let Data = pm.response.json();
+          pm.collectionVariables.set("invoice", Data.data.id);
+      }
+    language: text/javascript
+order: 6000

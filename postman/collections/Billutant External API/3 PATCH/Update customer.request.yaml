@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/customers/{{customer}}"
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "phoneNumber": "+43 660 0000000",
+      "note": "Updated through external API manual test"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{authToken}}"
+scripts:
+  - type: afterResponse
+    code: if (pm.environment.get("environment") === "allWorks") { pm.test('Status is 200', function () { pm.response.to.have.status(200); }); }
+    language: text/javascript
+order: 2000

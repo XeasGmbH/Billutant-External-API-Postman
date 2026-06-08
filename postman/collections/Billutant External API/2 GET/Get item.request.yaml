@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/items/{{item}}"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{authToken}}"
+scripts:
+  - type: afterResponse
+    code: if (pm.environment.get("environment") === "allWorks") { pm.test('Status is 200', function () { pm.response.to.have.status(200); }); }
+    language: text/javascript
+order: 6000

@@ -1,0 +1,30 @@
+$kind: http-request
+description: Sends a real email to the customer address. Use a test customer email.
+url: "{{baseUrl}}/invoices"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "{{customer}}",
+      "itemIds": ["{{item}}"],
+      "draft": false,
+      "send": true,
+      "emailTemplateId": "{{email}}"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{authToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      if (pm.environment.get("environment") === "allWorks") {
+          pm.test('Status is 201', function () {
+              pm.response.to.have.status(201);
+          });
+      }
+    language: text/javascript
+order: 4000

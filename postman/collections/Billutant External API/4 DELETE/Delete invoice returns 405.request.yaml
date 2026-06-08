@@ -1,0 +1,23 @@
+$kind: http-request
+description: Expected 405 because invoices cannot be deleted through the API.
+url: "{{baseUrl}}/invoices/{{invoice}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{authToken}}"
+scripts:
+  - type: beforeRequest
+    code: pm.collectionVariables.set("success", "false");
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      if (pm.environment.get("environment") === "allWorks") {
+          pm.test('Status is 405', function () {
+              pm.response.to.have.status(405);
+          });
+      }
+      pm.collectionVariables.set("invoice", 0);
+      pm.collectionVariables.set("draftinvoice", 0);
+    language: text/javascript
+order: 4000
