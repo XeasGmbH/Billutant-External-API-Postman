@@ -3,8 +3,8 @@ values:
   - key: authToken
     value: ''
   - key: baseUrl
-    value: ''
+    value: 'https://test.billutant.com/api/v1'
   - key: speed
-    value: ''
+    value: '1000'
   - key: environment
-    value: ''
+    value: allWorks
